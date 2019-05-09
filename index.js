@@ -30,9 +30,12 @@ parseString(xmlStr, (err, result) => {
     console.error('Failed to parse XML file');
     process.exit(1);
   }
-  if (!result.testsuites) {
-    result.testsuites.testsuite = result.testsuite 
+  if (!result.testsuites && result.testsuite) {
+    console.log(lib.generateTestsuiteSummary(result.testsuite));
+    console.log(lib.generateTestsuiteResult(result.testsuite));
+    return
   }
+  
   if (!result.testsuites.$) {
     result.testsuites.$ = lib.findSummaryFromTestsuites(result.testsuites.testsuite);
   }
