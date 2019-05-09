@@ -44,13 +44,10 @@ const isTestcaseSuccess = (testcase) => {
   return testcase.failure === undefined;
 };
 
-const generateTestcaseResult = (testcase, onlyFailures) => {
+const generateTestcaseResult = (testcase) => {
   let resultParagraph = '';
 
   if (isTestcaseSuccess(testcase)) {
-    if (onlyFailures) {
-      return '';
-    }
     resultParagraph += `   ${logSymbols.success} ${testcase.$.name}`;
   } else {
     resultParagraph += `   ${logSymbols.error} ${testcase.$.name}`;
@@ -86,10 +83,19 @@ exports.generateTestsuiteSummary = (suiteResult) => {
 
 exports.generateTestsuiteResult = (suiteResult, onlyFailures) => {
   let result = '';
-  const testscases = suiteResult.testcase;
-
+  let testscases = suiteResult.testcase;
+  
+  if (onlyFailures) {
+    testcases = testcases.filter(testcase => {
+      if (isTestcaseSuccess(testcase)) {
+        return false;
+      }
+      return true;
+    });
+  }
+  
   if (testscases) {
-    result = testscases.map(testcase => generateTestcaseResult(testcase, onlyFailures));
+    result = testscases.map(testcase => generateTestcaseResult(testcase));
   }
 
   return result.join(EOL);
