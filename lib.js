@@ -86,7 +86,7 @@ exports.generateTestsuiteResult = (suiteResult, onlyFailures) => {
   let testscases = suiteResult.testcase;
   
   if (onlyFailures) {
-    testcases = testcases.filter(testcase => {
+    testscases = testscases.filter(testcase => {
       if (isTestcaseSuccess(testcase)) {
         return false;
       }
