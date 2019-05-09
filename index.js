@@ -45,6 +45,6 @@ parseString(xmlStr, (err, result) => {
   console.log();
   result.testsuites.testsuite.forEach(t => {
     console.log(lib.generateTestsuiteSummary(t));
-    console.log(lib.generateTestsuiteResult(t, program.onlyFailures)));
+    console.log(lib.generateTestsuiteResult(t, program.onlyFailures));
   });
 });
