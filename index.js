@@ -9,6 +9,7 @@ const lib = require('./lib');
 
 program
   .version(packageJson.version, '-v, --version')
+  .option('-f, --only-failures', 'Output only failed tests.')
   .usage('<junit.xml file path...>');
 
 program.parse(process.argv);
@@ -32,7 +33,7 @@ parseString(xmlStr, (err, result) => {
   }
   if (!result.testsuites && result.testsuite) {
     console.log(lib.generateTestsuiteSummary(result.testsuite));
-    console.log(lib.generateTestsuiteResult(result.testsuite));
+    console.log(lib.generateTestsuiteResult(result.testsuite, program.onlyFailures));
     return
   }
   
@@ -44,6 +45,6 @@ parseString(xmlStr, (err, result) => {
   console.log();
   result.testsuites.testsuite.forEach(t => {
     console.log(lib.generateTestsuiteSummary(t));
-    console.log(lib.generateTestsuiteResult(t));
+    console.log(lib.generateTestsuiteResult(t, program.onlyFailures)));
   });
 });
